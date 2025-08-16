@@ -8,18 +8,24 @@
             margin: 0;
             height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #001f3f; /* Navy blue neon */
+            justify-content: flex-start;  /* Align to left */
+            align-items: flex-start;      /* Align to top */
+            padding-left: 80px;           /* Push a bit from left */
+            padding-top: 240px;           /* Push a bit down */
+            background-image: url("{{ url_for('static', filename='img.jpg') }}");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
             font-family: Arial, sans-serif;
-            color: white;
-        }
+            color: #f7edf2ff; /* Dark maroon text */
+}
+
         .container {
             background: rgba(0, 0, 50, 0.8);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 0 20px cyan;
-            width: 60%;
+            width: 45%;
             text-align: center;
         }
         textarea {
@@ -64,8 +70,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Marathi Text Summarizer (Extractive)</h2>
-
+       
         <form action="/summarize" method="post">
             <label for="text">Enter Text To Summarize:</label><br>
             <textarea name="text" required>{{ text if text else '' }}</textarea><br><br>
