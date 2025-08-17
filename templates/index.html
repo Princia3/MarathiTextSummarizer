@@ -6,70 +6,112 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;     /* Align to top */
-                       /* Push a bit down */
+            align-items: flex-start;
             background-image: url("{{ url_for('static', filename='img1.png') }}");
             background-repeat: no-repeat;
+            background-attachment: fixed; 
             background-position: center center;
             background-size: cover;
-            background-color : #f7e1bf;
+            background-color: #f7e1bf;
             font-family: Arial, sans-serif;
             font-size: 20px;
-            color: #561c39ff; /* Dark maroon text */
-}
+            color: #561c39ff;
+        }
 
         .container {
             background: #f7e1bf;
             padding: 30px;
             border-radius: 12px;
-            width: 60%;
-            margin-top: 550px;
-            text-align: center;
-            height: 100%;
-        }
-        textarea {
             width: 100%;
+            margin-top: 200px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 75%;
             height: 150px;
             margin-bottom: 15px;
             font-size: 18px;
             border-radius: 8px;
             padding: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
         }
+
         input[type="number"] {
             padding: 8px;
             font-size: 16px;
             border-radius: 5px;
-            margin-top: 20px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
         }
+
         button {
             padding: 12px 25px;
-            font-size: 18px;
-            background-color: #0074D9; /* Blue */
+            font-size: 25px;
+            background-color: #0074D9;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            margin-top: 5px;
+            transition: background 0.3s ease;
         }
+
         button:hover {
             background-color: #005fa3;
         }
+
         .summary-box {
-            background: #e3cb93ff; /* Dark green */
-            color: #0b610bff; /* Neon green text */
+            background: #e3cb93ff;
+            width: 75% ;
+            color: #0b610bff;
             padding: 20px;
             border-radius: 8px;
-            margin-top: 20px;
-            font-size: 20px;
+            margin: 25px auto;
+            font: bold;
+            text-align: center;
+        }
+
+        .summary-box h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #561c39ff;
+        }
+
+        .explanation-box {
+            background: #f3f0ebff;
+            width: 75% ;
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px auto;
+            font-size: 18px;
+            text-align: left;
+            border-left: 7px solid #ff9800;
+        }
+
+        .explanation-box h4 {
+            margin: 0 0 10px 0;
+            color: #d35400;
+        }
+
+        .error-box {
+            color: red;
+            margin-top: 15px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-       
         <form action="/summarize" method="post">
             <label for="text">Enter Text To Summarize:</label><br>
             <textarea name="text" required>{{ text if text else '' }}</textarea><br><br>
@@ -80,16 +122,52 @@
             <button type="submit">Summarize</button>
         </form>
 
-        {% if summary %}
-        <div class="summary-box">
-            <h3>Summary</h3>
-            <p>{{ summary }}</p>
-        </div>
-        {% endif %}
+       {% if summary %}
+<div class="summary-box">
+    <h1>Summary</h1>
+    <h2>{{ summary }}</h2>
+</div>
+
+{% if explanation %}
+<button type="button" onclick="toggleExplanation()">स्पष्टीकरण पाहा</button>
+<div class='explanation-box' id='explanationBox' style="display:none;">
+    <h3>सर्व वाक्यांचे PageRank स्कोर:</h3>
+    <table border="1" cellspacing="0" cellpadding="6">
+        <thead>
+            <tr>
+                <th>वाक्य</th>
+                <th>PageRank स्कोर</th>
+                <th>स्थिती</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in explanation %}
+            <tr>
+                <td>{{ row.sentence }}</td>
+                <td>{{ row.score }}</td>
+                <td>{{ row.selected }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endif %}
+
 
         {% if error %}
-        <div style="color:red;">{{ error }}</div>
+        <div class="error-box">{{ error }}</div>
         {% endif %}
     </div>
+     <script>
+        function toggleExplanation() {
+            var box = document.getElementById("explanationBox");
+            if (box.style.display === "none" || box.style.display === "") {
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
