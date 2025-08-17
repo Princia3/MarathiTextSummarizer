@@ -17,18 +17,31 @@ The project also provides an explanation feature that shows how sentences were s
 
 ## 🚀 Running on your machine
 
+
 ### 1️⃣ Create a virtual environment  
 ```bash
-python -m venv env   
+python -m venv env
+```   
 
 ### 2️⃣ Activate the environment
 ```bash
-.\env\Scripts\activate 
+.\env\Scripts\activate
+```
 
 ### 3️⃣ Install dependencies
 ```bash
 pip install -r requirements.txt
+```
 
 ### 4️⃣ Run the Flask app
 ```bash
 python app.py
+```
+
+## SCREENSHOTS OF UI
+ ![Screenshot](assets/img1.png)
+
+ ![Screenshot](assets/img2.png)
+
+ ![Screenshot](assets/img3.png)
+ 
